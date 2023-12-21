@@ -9,7 +9,7 @@ const chatControllers = {
         members: { $all: [firstId, secondId] }
       })
 
-      if (chatroom) return res.status(200).json({ chatRoom })
+      if (chatRoom) return res.status(200).json({ chatRoom })
 
       const newChatRoom = await chatMembersModel.create({
         members: [firstId, secondId]
