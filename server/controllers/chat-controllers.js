@@ -1,17 +1,17 @@
-import chatMembersModel from "../models/chat-members.js"
+import chatMemberModel from "../models/chat-member.js"
 
 const chatControllers = {
   createChat: async (req, res) => {
     const { firstId, secondId } = req.body
 
     try {
-      const chatRoom = await chatMembersModel.findOne({
+      const chatRoom = await chatMemberModel.findOne({
         members: { $all: [firstId, secondId] }
       })
 
       if (chatRoom) return res.status(200).json({ chatRoom })
 
-      const newChatRoom = await chatMembersModel.create({
+      const newChatRoom = await chatMemberModel.create({
         members: [firstId, secondId]
       })
 
@@ -27,7 +27,7 @@ const chatControllers = {
     const userId = req.params.userId
 
     try {
-      const chats = await chatMembersModel.find({
+      const chats = await chatMemberModel.find({
         members: { $in: [userId] }
       })
       res.status(200).json({ chats })
@@ -41,7 +41,7 @@ const chatControllers = {
     const { firstId, secondId } = req.params
 
     try {
-      const chat = await chatMembersModel.findOne({
+      const chat = await chatMemberModel.findOne({
         members: { $all: [firstId, secondId] }
       })
       res.status(200).json({ chat })
