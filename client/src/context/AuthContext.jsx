@@ -7,9 +7,9 @@ import { BASE_URL, postRequest } from "../api/index.js"
 // </AuthContextProvider>
 //讓App能夠儲存到資料
 
-export const AuthContext = createContext()
+const AuthContext = createContext()
 
-export const AuthContextProvider = ({ children }) => {
+const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [signupError, setsignupError] = useState(null)
   const [isSignupLoading, setisSignupLoading] = useState(false)
@@ -67,7 +67,6 @@ export const AuthContextProvider = ({ children }) => {
     setisSigninLoading(true)
     setsigninError(null)
     const response = await postRequest(`${BASE_URL}/users/signin`, JSON.stringify(signinInfo))
-    console.log(response)
     setisSigninLoading(false)
 
     if (response.error) {
@@ -103,4 +102,9 @@ export const AuthContextProvider = ({ children }) => {
       {children}
     </AuthContext.Provider >
   )
+}
+
+export {
+  AuthContext,
+  AuthContextProvider
 }

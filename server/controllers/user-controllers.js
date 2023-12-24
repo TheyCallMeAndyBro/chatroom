@@ -44,7 +44,6 @@ const userControllers = {
     const { email, password } = req.body
 
     try {
-      console.log(email, password)
       let user = await userModel.findOne({ email })
 
       if (!user)
