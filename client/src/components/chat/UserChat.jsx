@@ -1,9 +1,13 @@
 import { Stack } from "react-bootstrap"
 import { GetChatUserHelper } from "../../helper/getChatUser-helper"
 import avatar from "../../assets/avatar.svg"
+import { useContext } from "react"
+import { ChatContext } from "../../context/ChatContext"
 
 const UserChat = ({ chat, user }) => {
   const getChatUser = GetChatUserHelper(chat, user)
+  const { onlineUsers } = useContext(ChatContext)
+  const isOnlineChatUser = onlineUsers?.some(user => user.userId === getChatUser?.user._id)
 
   return (
     <Stack
@@ -24,7 +28,7 @@ const UserChat = ({ chat, user }) => {
       <div className="d-flex flex-column align-items-end">
         <div className="data">12/12/12</div>
         <div className="this-user-notifications">2</div>
-        <div className="user-online"></div>
+        <div className={isOnlineChatUser ? "user-online" : ""}></div>
       </div>
     </Stack>
   )

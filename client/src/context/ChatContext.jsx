@@ -1,7 +1,8 @@
 import { createContext, useCallback, useEffect, useState } from "react"
 import { BASE_URL, getRequest, postRequest } from "../api/index.js"
-
+import { io } from "socket.io-client"
 const ChatContext = createContext()
+const socketServerPort = process.env.SOCKET_SERVER_PORT || 4000
 
 const ChatContextProvider = ({ children, user }) => {
   const [userChats, setUserChats] = useState(null)
@@ -9,9 +10,59 @@ const ChatContextProvider = ({ children, user }) => {
   const [targetChatData, setTargetChatData] = useState(null)
   const [messages, setMessages] = useState(null)
   const [newMessage, setNewMessage] = useState(null)
+  const [socket, setSocket] = useState(null)
+  const [onlineUsers, setOnlineUsers] = useState([])
 
+  //connect socket server
   useEffect(() => {
+    const newSocket = io(`http://localhost:${socketServerPort}`)
+    setSocket(newSocket)
 
+    return () => { //cleanup  function
+      newSocket.disconnect()
+    }
+  }, [user])
+
+  //add online users
+  useEffect(() => {
+    if (socket === null) return
+    socket.emit("addNewUser", user?.data._id)
+    socket.on("getOnlineUsers", (res) => {
+
+      setOnlineUsers(res)
+    })
+
+    return () => {
+      socket.off("getOnlineUsers")
+    }
+  }, [socket, user?.data._id])
+
+  //send message to socket server
+  useEffect(() => {
+    if (socket === null) return
+    const chatUserId = targetChatData?.members?.find(targetChatUserId => targetChatUserId !== user?.data._id)
+
+    socket.emit("sendMessage", { ...newMessage, chatUserId })
+  }, [socket, newMessage, targetChatData, user?.data._id])
+
+  //get server socket message
+  useEffect(() => {
+    if (socket === null) return
+
+    socket.on("getmessage", response => {
+      if (targetChatData?._id === response.chatId) {
+
+        setMessages(prev => [...prev, response])
+      }
+    })
+
+    return () => {
+      socket.off("getmessage")
+    }
+  }, [socket, targetChatData])
+
+  //get not startedChatUsers
+  useEffect(() => {
     const getUsers = async () => {
       const response = await getRequest(`${BASE_URL}/users`)
 
@@ -39,7 +90,6 @@ const ChatContextProvider = ({ children, user }) => {
         if (response.error) {
           return console.log("Error get user's chats", response)
         }
-
         setUserChats(response.chats)
       }
     }
@@ -70,13 +120,13 @@ const ChatContextProvider = ({ children, user }) => {
     const response = await postRequest(`${BASE_URL}/messages`, JSON.stringify({
       chatId: targetChatData._id,
       senderId: user.data._id,
-      text:textMessage
+      text: textMessage
     }))
     if (response.error) {
       return console.error("Error on post message!")
     }
-    console.log(response)
     setNewMessage(response.message) //get the new message
+
     setMessages((prev) => [...prev, response.message]) //put the new message to all messages
     setTextMessage("") //clean the input message value
 
@@ -85,6 +135,7 @@ const ChatContextProvider = ({ children, user }) => {
 
   //target chat data
   const getTargetChatData = useCallback((chat) => {
+    
     setTargetChatData(chat)
 
   }, [])
@@ -116,7 +167,8 @@ const ChatContextProvider = ({ children, user }) => {
       getTargetChatData,
       targetChatData,
       messages,
-      sendTextMessageToBackend
+      sendTextMessageToBackend,
+      onlineUsers
     }}
     >
       {children}
