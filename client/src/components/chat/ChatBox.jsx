@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { ChatContext } from "../../context/ChatContext"
 import { GetChatUserHelper } from "../../helper/getChatUser-helper"
@@ -11,6 +11,13 @@ const ChatBox = () => {
   const { targetChatData, messages, sendTextMessageToBackend } = useContext(ChatContext)
   const getChatUser = GetChatUserHelper(targetChatData, user)
   const [textMessage, setTextMessage] = useState("")
+  const chatBoxScroll = useRef()
+
+  // put message to chatBoxScroll and use scrollIntoView scroll to the new message
+  useEffect(() => {
+    console.log("123", chatBoxScroll.current)
+    chatBoxScroll.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
 
   if (!getChatUser) return (
     <p className="text-center" style={{ width: "100%", fontSize: '36px' }}>
@@ -28,7 +35,9 @@ const ChatBox = () => {
             <Stack key={index} className={`${messages?.senderId === user?.data._id
               ? "message self align-self-end flex-grow-0"
               : "message align-self-start flex-grow-0"
-              }`}>
+              }`}
+              ref={chatBoxScroll}
+            >
               <span>{messages.text}</span>
               <span className="message-footer">
                 {moment(messages.createdAt).calendar()}
