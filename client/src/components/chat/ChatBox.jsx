@@ -15,7 +15,6 @@ const ChatBox = () => {
 
   // put message to chatBoxScroll and use scrollIntoView scroll to the new message
   useEffect(() => {
-    console.log("123", chatBoxScroll.current)
     chatBoxScroll.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
