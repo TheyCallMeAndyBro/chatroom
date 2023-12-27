@@ -194,6 +194,8 @@ const ChatContextProvider = ({ children, user }) => {
       return aimChatMembers.every(member => chat.members.includes(member))
     })
 
+    getTargetChatData(getClikedChat)
+
     const mNotificationAsRead = allUnreadNotifications.map(notifications => {
       if (clickedNotification.senderId === notifications.senderId) {
         return { ...clickedNotification, isRead: true }
@@ -201,10 +203,28 @@ const ChatContextProvider = ({ children, user }) => {
       else return notifications
     })
 
-    getTargetChatData(getClikedChat)
     setNotification(mNotificationAsRead)
   }, [getTargetChatData])
 
+  const individualUnreadNotificationAsRead = useCallback((individualUnreadNotification, allUnreadNotifications) => {
+
+    const mNotificationAsRead = allUnreadNotifications.map(un => {
+      let notification
+
+      individualUnreadNotification.forEach(n => {
+        if (n.senderId === un.senderId) {
+          notification = { ...n, isRead: true }
+        }
+        else {
+          notification = un
+        }
+      })
+
+      return notification
+    })
+
+    setNotification(mNotificationAsRead)
+  }, [])
 
   return (
     <ChatContext.Provider value={{
@@ -219,7 +239,8 @@ const ChatContextProvider = ({ children, user }) => {
       notification,
       allUsers,
       markAllNotificationAsRead,
-      getChatWithNotification
+      getChatWithNotification,
+      individualUnreadNotificationAsRead
     }}
     >
       {children}

@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:5000/api"
+const BASE_URL = "http://localhost:5000/api"
 
 const postRequest = async (url, body) => {
   const response = await fetch(url, {
@@ -32,5 +32,6 @@ const getRequest = async (url) => {
 
 export {
   postRequest,
-  getRequest
+  getRequest,
+  BASE_URL
 }

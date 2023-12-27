@@ -26,6 +26,7 @@ const GetChatUserHelper = (chat, user) => {
   }, [chatUserId])
 
   return getChatUser
+
 }
 
 export {

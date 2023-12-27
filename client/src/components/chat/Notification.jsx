@@ -53,6 +53,7 @@ const Notification = () => {
               return (
                 <div key={index} className={n.isRead ? "notification" : "notification not-read"} onClick={() => {
                   getChatWithNotification(n, userChats, user, unreadNotifications)
+                  setIsOpen(false)
                 }}
                 >
                   <span>{`${n.senderName} sent you a new message`}</span>
