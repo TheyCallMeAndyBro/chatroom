@@ -17,7 +17,6 @@ const Signup = () => {
 
             <h2 className="text-center">Signup</h2>
 
-
             <Form.Control className="my-1 form-control-lg" type="text" placeholder="Name" onChange={(e) => updateSignupInfo({ ...signupInfo, name: e.target.value })} />
             <Form.Control className="my-1 form-control-lg" type="email" placeholder="Email" onChange={(e) => updateSignupInfo({ ...signupInfo, email: e.target.value })} />
             <Form.Control className="my-1 form-control-lg" type="password" placeholder="Password" onChange={(e) => updateSignupInfo({ ...signupInfo, password: e.target.value })} />
@@ -30,8 +29,6 @@ const Signup = () => {
                 <p className="text-light">{signupError.message}</p>
               </Alert>
             }
-
-
           </Stack>
         </Col>
       </Row>

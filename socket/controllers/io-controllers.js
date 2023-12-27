@@ -26,7 +26,12 @@ const socketIo = (clientPort) => {
       // check is user onilne
 
       if (user) {
-        io.to(user.socketId).emit("getmessage", response)
+        io.to(user.socketId).emit("getMessage", response)
+        io.to(user.socketId).emit("getNotification", {
+          senderId: response.senderId,
+          isRead: false,
+          data: new Date()
+        })
       }
     }))
 
