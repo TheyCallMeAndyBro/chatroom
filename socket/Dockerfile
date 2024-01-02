@@ -10,4 +10,4 @@ RUN npm install
 # 暴露端口
 EXPOSE 4000
 
-CMD [ "npm", "start" ]
+CMD [ "node", "app.js" ]
