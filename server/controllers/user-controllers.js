@@ -1,6 +1,6 @@
 import userModel from "../models/user.js"
 import validator from "validator"
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import jwtToken from "../config/jwt.js"
 
 const userControllers = {

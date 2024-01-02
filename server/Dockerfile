@@ -5,7 +5,7 @@ WORKDIR /usr/src
 
 COPY . .
 
-RUN npm install --build-from-source bcrypt
+RUN npm install
 # 暴露端口
 EXPOSE 5000
 
