@@ -40,7 +40,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/socket:latest
     
     - name: login EC2 and depoly
-      run:
+      run: |
         ssh -i ${{ secrets.EC2_PRIVATE_KEY_PATH }} ec2-user@${{ secrets.EC2_IP }} 'cd project && cd chatroom && 
         docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-client:latest
         docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-server:latest
