@@ -23,28 +23,28 @@ jobs:
       with:
           context: ./client
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-client:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/client:latest
 
     - name: Build and Push Docker Images - Server
       uses: docker/build-push-action@v2
       with:
           context: ./server
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-server:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/server:latest
 
     - name: Build and Push Docker Images - Socket
       uses: docker/build-push-action@v2
       with:
           context: ./socket
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-socket:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/socket:latest
     
     - name: login EC2 and depoly
       run: |
         ssh -i ${{ secrets.EC2_PRIVATE_KEY_PATH }} ec2-user@${{ secrets.EC2_IP }} 'cd project && cd chatroom && 
-        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-client:latest
-        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-server:latest
-        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-socket:latest
+        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/client:latest
+        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/server:latest
+        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/socket:latest
         docker-compose down
         docker-compose up -d
         '
