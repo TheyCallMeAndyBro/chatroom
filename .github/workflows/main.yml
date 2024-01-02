@@ -41,7 +41,9 @@ jobs:
     
     - name: login EC2 and depoly
       run: |
-        ssh -i ${{ secrets.EC2_PRIVATE_KEY_PATH }} ec2-user@${{ secrets.EC2_IP }} 'cd project && cd chatroom && 
+        echo "${{ secrets.EC2_PRIVATE_KEY_PATH }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} 'cd project && cd chatroom && 'cd project && cd chatroom && 
         docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/client:latest
         docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/server:latest
         docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/socket:latest
