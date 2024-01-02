@@ -1,0 +1,48 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - CI/CD
+  
+jobs:
+   deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Build and Push Docker Images - Client
+      uses: docker/build-push-action@v2
+      with:
+          context: ./chatroom-client
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/client:latest
+
+    - name: Build and Push Docker Images - Server
+      uses: docker/build-push-action@v2
+      with:
+          context: ./chatroom-server
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/server:latest
+
+    - name: Build and Push Docker Images - Socket
+      uses: docker/build-push-action@v2
+      with:
+          context: ./chatroom-socket
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/socket:latest
+    
+    - name: login EC2 and depoly
+      run:
+        ssh -i ${{ secrets.EC2_PRIVATE_KEY_PATH }} ec2-user@${{ secrets.EC2_IP }} 'cd project && mkdir -p chatroom && cd chatroom && scp -i ${{ secrets.EC2_PRIVATE_KEY_PATH }} user@${{ secrets.EC2_IP }}:github/TheyCallMeAndyBro/chatroom/docker-compose.yml ~/project/chatroom 
+        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-client:latest
+        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-server:latest
+        docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/chatroom-socket:latest
+        '
