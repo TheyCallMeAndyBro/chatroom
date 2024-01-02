@@ -1,12 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react"
 import { BASE_URL, postRequest } from "../api/index.js"
 
-// 創造一個能夠在應用程式共享狀態的方法再經由
-// <AuthContextProvider>
-//  <App />
-// </AuthContextProvider>
-//讓App能夠儲存到資料
-
 const AuthContext = createContext()
 
 const AuthContextProvider = ({ children }) => {

@@ -1,0 +1,13 @@
+FROM node:18.15.0-alpine
+
+RUN mkdir -p /usr/src
+
+WORKDIR /usr/src
+
+COPY . .
+
+RUN npm install
+# 暴露端口
+EXPOSE 3030
+
+CMD [ "npm", "start"]

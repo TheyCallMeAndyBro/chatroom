@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  client:
+    image: andy060104/chatroom-client:latest
+    ports:
+      - "3030:3030"
+    depends_on:
+      - server
+      - socket
+    restart: always
+
+  server:
+    image: andy060104/chatroom-server:latest
+    ports:
+      - "5000:5000"
+    restart: always
+
+
+  socket:
+    image: andy060104/chatroom-socket:latest
+    ports:
+      - "4000:4000"
+    restart: always
