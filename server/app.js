@@ -7,7 +7,7 @@ import router from "./routes/index.js"
 
 const app = express()
 dotenv.config()
-const port = process.env.PORT || 5000
+const port = process.env.SERVER_PORT || 5000
 const ATLAS_URI = process.env.ATLAS_URI
 
 app.use(express.json())
