@@ -1,5 +1,7 @@
 FROM node:18-alpine
 
+ENV PORT=3030
+
 RUN mkdir -p /usr/src
 
 WORKDIR /usr/src

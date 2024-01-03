@@ -18,7 +18,7 @@ const ChatContextProvider = ({ children, user }) => {
 
   //connect socket server
   useEffect(() => {
-    const newSocket = io(`http://ec2-13-115-229-161.ap-northeast-1.compute.amazonaws.com:${socketServerPort}`)
+    const newSocket = io(`http://ec2-18-183-135-126.ap-northeast-1.compute.amazonaws.com:${socketServerPort}`)
     setSocket(newSocket)
 
     return () => { //cleanup  function

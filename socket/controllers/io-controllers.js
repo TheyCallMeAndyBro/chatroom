@@ -2,7 +2,7 @@ import { Server } from "socket.io"
 
 
 const socketIo = (clientPort) => {
-  const io = new Server({ cors: `http://ec2-13-115-229-161.ap-northeast-1.compute.amazonaws.com:${clientPort}` })
+  const io = new Server({ cors: `http://ec2-18-183-135-126.ap-northeast-1.compute.amazonaws.com:${clientPort}` })
   let onlineUsers = []
 
   io.on("connection", (socket) => {
