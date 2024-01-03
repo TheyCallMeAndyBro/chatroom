@@ -19,7 +19,7 @@ This website is built with Node.js, Express.js, Socket.IO and MongoDB Atlas.
 
 ## Get Start
 
-### [Link](http://ec2-13-115-229-161.ap-northeast-1.compute.amazonaws.com:3030/)
+### [Link](http://ec2-3-113-4-183.ap-northeast-1.compute.amazonaws.com:3030/)
 
 ## Account
 
