@@ -1,4 +1,4 @@
-const BASE_URL = "http://ec2-18-183-135-126.ap-northeast-1.compute.amazonaws.com:5000/api"
+const BASE_URL = "http://ec2-3-113-4-183.ap-northeast-1.compute.amazonaws.com:5000/api"
 
 // const BASE_URL = "http://localhost:5000/api"
 
