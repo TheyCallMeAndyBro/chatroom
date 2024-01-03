@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:5000/api"
+const BASE_URL = "http://ec2-13-115-229-161.ap-northeast-1.compute.amazonaws.com:5000/api"
+
+// const BASE_URL = "http://localhost:5000/api"
 
 const postRequest = async (url, body) => {
   const response = await fetch(url, {
